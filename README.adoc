@@ -1,0 +1,34 @@
+== Model Turkish Cyber Bullying
+
+Kaggle platformu üzerinde bulunan https://www.kaggle.com/abozyigit/turkish-cyberbullying[Türkçe siberzorbalık] veri kümesini kullanarak bir model tespitinde bulunulmuştur. Bu modeli ve ilgili parametreleriyle birlikte kaydedildi. Kaydedilen dosya `cyber.py` dosyasındaki ufak web servis içerisinde kullanarak `cURL` üzerinden yapılacak talebin hakaret olup olmadığının bilgisini döndürecektir.
+
+Modelin tespitinde atılan adımların hepsini `verius-cyber-bullying` Jupyter Notebook üzerinden inceleyebilirsiniz.
+
+=== Docker
+
+----
+$ docker build -t cyber:1.0 .
+$ docker run -d --name cyber -p 5000:5000 cyber:1.0
+----
+
+Ya da
+
+----
+$ docker run -d --name cyber -p 5000:5000 ozlerhakan/cyber:1.0
+----
+
+=== cURL
+
+----
+$ curl -u hakan:admin -H "Content-Type: application/json" -X POST -d '{"text": "anlamıyorum"}' localhost:5000/submit
+Authentication Denied!
+
+$ curl -H "Content-Type: application/json" -X POST -d '{"text": "anlamıyorum"}' localhost:5000/submit
+Please use authorization service to submit.
+
+$ curl -u admin:admin -H "Content-Type: application/json" -X POST -d '{"text": "anlamıyorum"}' localhost:5000/submit
+{"result":"Non-abusive"}
+
+$ curl -u admin:admin -H "Content-Type: application/json" -X POST -d '{"text": "mal mısın"}' localhost:5000/submit
+{"result":"Abusive"}
+----
