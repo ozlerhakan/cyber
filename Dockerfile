@@ -8,7 +8,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY cyber.py ./
 
-COPY final_model_svc.pkl ./
+COPY final_model.pkl ./
 
 EXPOSE 5000
 
