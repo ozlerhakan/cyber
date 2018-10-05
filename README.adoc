@@ -4,17 +4,54 @@ Kaggle platformu üzerinde bulunan https://www.kaggle.com/abozyigit/turkish-cybe
 
 Modelin tespitinde atılan adımların hepsini `verius-cyber-bullying` Jupyter Notebook üzerinden inceleyebilirsiniz.
 
+=== Version 1 (Master Branch)
+
+Seçilen model ve parametreleri:
+
+[python]
+----
+final_pipeline = Pipeline([
+        ('tfidfvectorizer', TfidfVectorizer(min_df=1, ngram_range=(1,1), stop_words=stops)),
+        ('linearsvc', LinearSVC(max_iter=2000, C=1))
+])
+----
+
+=== Version 2 (version2 Branch)
+
+Seçilen model ve parametreleri:
+
+[python]
+----
+final_pipeline = Pipeline([
+        ('countvectorizer', CountVectorizer(min_df=1, ngram_range=(1,2), stop_words=stops)),
+        ('linearsvc', LinearSVC(max_iter=1000, C=1))
+])
+----
+
 === Docker
 
 ----
+$ cd cyber/
 $ docker build -t cyber:1.0 .
 $ docker run -d --name cyber -p 5000:5000 cyber:1.0
+
+# version 2 için
+$ cd cyber/
+$ git checkout version2
+$ docker build -t cyber:2.0 .
+$ docker run -d --name cyber -p 5000:5000 cyber:2.0
 ----
 
-Ya da
+Version 1 için
 
 ----
 $ docker run -d --name cyber -p 5000:5000 ozlerhakan/cyber:1.0
+----
+
+Version 2 için
+
+----
+$ docker run -d --name cyber -p 5000:5000 ozlerhakan/cyber:2.0
 ----
 
 === cURL
